@@ -1,0 +1,3 @@
+requests
+validators
+beautifulsoup4
