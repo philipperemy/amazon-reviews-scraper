@@ -12,7 +12,17 @@ sudo pip install -r requirements.txt
 python amazon_scraper.py # to start scraping!
 ```
 
+## Some examples on Amazon Japan
 
+### Amazon.co.jp
+<div align="center">
+  <img src="fig/img1.png"><br><br>
+</div>
+<div align="center">
+  <img src="fig/img2.png"><br><br>
+</div>
+
+### Scraper
 ```
 [...]
 2017-02-27 16:52:47,347 - INFO - ***********************************************
