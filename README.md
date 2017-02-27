@@ -14,6 +14,8 @@ python amazon_scraper.py # to start scraping!
 
 ## Some examples on Amazon Japan
 
+Item = `BOTANIST ボタニカルシャンプー 490ml ＆ トリートメント 490g　モイストセット`
+
 ### Data processed by the scraper
 ```
 [...]
@@ -29,7 +31,6 @@ python amazon_scraper.py # to start scraping!
 2017-02-27 16:52:47,348 - INFO - CONTENT  = スカルプ系のシャンプーは一通り試しましたが、一番自分に合っている気がします。価格も他のスカルプ系のシャンプーに比べると安いと思います。
 2017-02-27 16:52:47,348 - INFO - ***********************************************
 ```
-
 
 ### Content on amazon.co.jp
 <div align="center">
