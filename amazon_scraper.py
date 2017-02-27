@@ -45,6 +45,7 @@ def main():
     for (link, name) in items:
         logging.debug('link = {}, name = {}'.format(link, name))
         item_id = extract_item_id(link)
+
         for page_number in range(100):
             product_reviews_link = get_product_reviews_url(item_id, page_number)
             so = get_soup(product_reviews_link)
