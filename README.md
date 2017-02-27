@@ -14,15 +14,7 @@ python amazon_scraper.py # to start scraping!
 
 ## Some examples on Amazon Japan
 
-### Amazon.co.jp
-<div align="center">
-  <img src="fig/img1.png"><br><br>
-</div>
-<div align="center">
-  <img src="fig/img2.png"><br><br>
-</div>
-
-### Scraper
+### Data processed by the scraper
 ```
 [...]
 2017-02-27 16:52:47,347 - INFO - ***********************************************
@@ -37,3 +29,12 @@ python amazon_scraper.py # to start scraping!
 2017-02-27 16:52:47,348 - INFO - CONTENT  = スカルプ系のシャンプーは一通り試しましたが、一番自分に合っている気がします。価格も他のスカルプ系のシャンプーに比べると安いと思います。
 2017-02-27 16:52:47,348 - INFO - ***********************************************
 ```
+
+
+### Content on amazon.co.jp
+<div align="center">
+  <img src="fig/img1.png"><br><br>
+</div>
+<div align="center">
+  <img src="fig/img2.png"><br><br>
+</div>
