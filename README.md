@@ -1,4 +1,4 @@
-# Amazon Multi Language Reviews Scraper
+# Amazon Multi Language Reviews Scraper (Last update March 2017. Works!)
 Yet another Multi Language Scraper for Amazon targeting reviews.
 <br/>
 <div align="center">
@@ -9,7 +9,7 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
 cd ars
 sudo pip install -r requirements.txt
-python amazon_scraper.py # to start scraping!
+python amazon_comments_scraper.py -s iPhone # will search iPhone on Amazon.co.jp and fetch many comments!
 ```
 
 ## Some examples on Amazon Japan
