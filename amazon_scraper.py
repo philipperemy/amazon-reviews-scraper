@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 import requests
 import validators
@@ -9,6 +10,62 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 # https://www.amazon.co.jp/product-reviews/B00Z16VF3E/ref=cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews&showViewpoints=1&sortBy=helpful&pageNumber=1
 
+
+def extract_product_ids_from_link(category_link):
+    category_link_soup = get_soup(category_link)
+    products_links_1 = [a.attrs['href'] for a in category_link_soup.find_all('a')
+                        if 'href' in a.attrs and '/gp/product/' in a.attrs['href']]
+    products_links_2 = [a.attrs['href'] for a in category_link_soup.find_all('a')
+                        if 'href' in a.attrs and '/dp/' in a.attrs['href']]
+    products_links = products_links_1 + products_links_2
+    products_ids = list(set(map(extract_product_id, products_links)))
+    return products_ids
+
+
+def get_random_product_ids():
+    main_category_url = 'https://www.amazon.co.jp/gp/site-directory/ref=nav_shopall_btn'
+    main_category_page = get_soup(main_category_url)
+    category_links_soup = main_category_page.find_all('a', {'class': 'nav_a'})
+    category_links = [a.attrs['href'] for a in category_links_soup]
+    all_product_ids = set()
+    links_visited = set()
+    categories_count = len(category_links)
+    logging.info('{} categories found.'.format(categories_count))
+    i = 0
+    while len(category_links) > 0:
+        i += 1
+        logging.info('-' * 80)
+        logging.info('Stack length = {}, iterations = {}, total links visited = {}'.format(len(category_links), i,
+                                                                                           len(links_visited)))
+        category_link = category_links.pop()
+
+        if category_link in links_visited:
+            logging.info('ALREADY VISITED')
+            continue
+        else:
+            links_visited.add(category_link)
+
+        try:
+            category_link_soup = get_soup(category_link)
+            new_links = [a.attrs['href'] for a in category_link_soup.find_all('a')
+                         if 'href' in a.attrs and a.attrs['href'].startswith('/s/')]  # or /b/
+            category_links.extend(new_links)
+            products_ids = extract_product_ids_from_link(category_link)
+            logging.info(products_ids)
+            for product_id in products_ids:
+                all_product_ids.add(product_id)
+            logging.info('{} products found at this step.'.format(len(products_ids)))
+            logging.info('{} unique products found so far.'.format(len(all_product_ids)))
+            if len(products_ids) > 0:
+                for jj in range(2, 10):
+                    if 'page' in category_link:
+                        break
+                    category_links.append(category_link + '&page={}'.format(jj))
+        except Exception as e:
+            logging.error('Exception occurred. Skipping')
+            logging.error(e)
+
+
 def get_product_reviews_url(item_id, page_number):
     return 'https://www.amazon.co.jp/product-reviews/{}/ref=' \
            'cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews' \
@@ -16,11 +73,24 @@ def get_product_reviews_url(item_id, page_number):
         item_id, page_number)
 
 
-def extract_item_id(link_from_main_page):
-    return link_from_main_page[link_from_main_page.index('/dp/') + len('/dp/'):].split('/')[0]  # e.g. B01H8A7Q42
+def extract_product_id(link_from_main_page):
+    # e.g. B01H8A7Q42
+    p_id = -1
+    tags = ['/dp/', '/gp/product/']
+    for tag in tags:
+        try:
+            p_id = link_from_main_page[link_from_main_page.index(tag) + len(tag):].split('/')[0]
+        except:
+            pass
+    return p_id
 
 
 def get_soup(url):
+    if 'amazon.co.jp' not in url:
+        url = 'https://www.amazon.co.jp' + url
+    nap_time_sec = 0.5
+    logging.debug('Script is going to sleep for {} (Amazon throttling). ZZZzzzZZZzz.'.format(nap_time_sec))
+    sleep(nap_time_sec)
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.134 Safari/537.36'
     }
@@ -44,7 +114,7 @@ def main():
     logging.info('Found {} items.'.format(len(items)))
     for (link, name) in items:
         logging.debug('link = {}, name = {}'.format(link, name))
-        item_id = extract_item_id(link)
+        item_id = extract_product_id(link)
 
         for page_number in range(100):
             product_reviews_link = get_product_reviews_url(item_id, page_number)
@@ -75,4 +145,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    get_random_product_ids()
+    # main()
