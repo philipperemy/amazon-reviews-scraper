@@ -1,9 +1,29 @@
+import errno
+import json
 import logging
+import os
 import re
 from time import sleep
 
 import requests
 from bs4 import BeautifulSoup
+
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+
+def persist_comment_to_disk(comment):
+    output_filename = os.path.join('comments', comment['product_id'])
+    mkdir_p(output_filename)
+    with open(output_filename, 'w') as fp:
+        json.dump(comment, fp, sort_keys=True, indent=4, ensure_ascii=False)
 
 
 def extract_product_id(link_from_main_page):

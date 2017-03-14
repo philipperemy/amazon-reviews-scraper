@@ -1,4 +1,5 @@
 import logging
+import re
 
 import validators
 
@@ -33,8 +34,11 @@ def get_comments_based_on_keyword(search):
 
 
 def get_comments_with_product_id(product_id):
+    reviews = list()
     if product_id is None:
-        return
+        return reviews
+    if not re.match('^[A-Z0-9]{10}$', product_id):
+        return reviews
     for page_number in range(100):
         product_reviews_link = get_product_reviews_url(product_id, page_number)
         so = get_soup(product_reviews_link)
@@ -61,3 +65,9 @@ def get_comments_with_product_id(product_id):
             logging.info('RATING   = ' + rating)
             logging.info('CONTENT  = ' + body)
             logging.info('***********************************************\n')
+            reviews.append({'title': title,
+                            'rating': rating,
+                            'body': body,
+                            'product_id': product_id
+                            })
+    return reviews
