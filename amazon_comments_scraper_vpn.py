@@ -17,8 +17,6 @@ def main():
         except Exception as e:
             logging.error('Exception raised')
             logging.error(e)
-            logging.error('Program will exit.')
-            exit(1)
 
 
 def change_ip():
