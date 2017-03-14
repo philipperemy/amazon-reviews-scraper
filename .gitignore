@@ -6,6 +6,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+nohup.out
+
 # C extensions
 *.txt
 *.so
