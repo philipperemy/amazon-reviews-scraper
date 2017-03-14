@@ -39,10 +39,4 @@ def get_soup(url):
         logging.error('Your bot has been detected. Please wait a while.')
         logging.error('Program will exit.')
         exit(1)
-
     return soup
-
-
-if __name__ == '__main__':
-    l = 'https://www.amazon.co.jp/海派物語-Shanghai-Story-チャイナドレス（レディース、女性用）ドラゴン-パーティー/dp/B01F401N1A/ref=sr_1_1?ie=UTF8&qid=1486377535&sr=8-1&keywords=wine+red'
-    print(extract_product_id(l))

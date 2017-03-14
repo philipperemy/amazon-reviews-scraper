@@ -17,6 +17,7 @@ def extract_product_ids_from_link(category_link):
 
 
 def get_random_product_ids(output_filename):
+    # this function has a random behavior! It's like restoring from a checkpoint because a new call will yield new values.
     logging.info('Writing to {}'.format(output_filename))
     with open(output_filename, 'w') as o:
         main_category_page = get_soup('https://www.amazon.co.jp/gp/site-directory/ref=nav_shopall_btn')
@@ -25,9 +26,9 @@ def get_random_product_ids(output_filename):
         category_links = [a.attrs['href'] for a in category_links_soup]
         all_product_ids = set()
         more_category_links = list(category_links)
-        for i, category_link in enumerate(category_links):
+        for it, category_link in enumerate(category_links):
             try:
-                logging.info('({}/{}) get as many links as we can.'.format(i, len(category_links)))
+                logging.info('({}/{}) get as many links as we can.'.format(it, len(category_links)))
                 category_link_soup = get_soup('https://www.amazon.co.jp' + category_link)
                 new_links = [a.attrs['href'] for a in category_link_soup.find_all('a')
                              if 'href' in a.attrs and a.attrs['href'].startswith('/s/')]  # or /b/
@@ -37,16 +38,15 @@ def get_random_product_ids(output_filename):
                 logging.error('Exception occurred. Skipping')
                 logging.error(e)
 
-        random.seed(123)
         random.shuffle(more_category_links)
 
-        i = 0
+        it = 0
         while len(more_category_links) > 0:
-            i += 1
+            it += 1
             logging.info('Stack length = {}'.format(len(more_category_links)))
             category_link = more_category_links.pop()
             try:
-                logging.info('({}/{}) get as many products as we can.'.format(i, len(more_category_links)))
+                logging.info('({}/{}) get as many products as we can.'.format(it, len(more_category_links)))
                 cur_product_ids = extract_product_ids_from_link(category_link)
                 logging.info(cur_product_ids)
                 for product_id in cur_product_ids:
@@ -58,7 +58,7 @@ def get_random_product_ids(output_filename):
                 logging.info('{} unique products found so far.'.format(len(all_product_ids)))
 
                 if len(cur_product_ids) > 0:
-                    for jj in range(2, 30):
+                    for jj in range(2, 50):
                         if 'page' in category_link:
                             break
                         more_category_links.append(category_link + '&page={}'.format(jj))
