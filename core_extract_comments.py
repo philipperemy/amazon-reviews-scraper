@@ -16,7 +16,7 @@ def get_product_reviews_url(item_id, page_number):
 
 
 def get_comments_based_on_keyword(search):
-    print('SEARCH = {}'.format(search))
+    logging.info('SEARCH = {}'.format(search))
     url = 'http://www.amazon.co.jp/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + \
           search + '&rh=i%3Aaps%2Ck%3A' + search
     soup = get_soup(url)

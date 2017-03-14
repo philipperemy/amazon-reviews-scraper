@@ -8,6 +8,14 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup
 
+OUTPUT_DIR = 'comments'
+
+
+def get_reviews_filename(product_id):
+    filename = os.path.join(OUTPUT_DIR, '{}.json'.format(product_id))
+    exist = os.path.isfile(filename)
+    return filename, exist
+
 
 def mkdir_p(path):
     try:
@@ -19,11 +27,19 @@ def mkdir_p(path):
             raise
 
 
-def persist_comment_to_disk(comment):
-    output_filename = os.path.join('comments', comment['product_id'])
-    mkdir_p(output_filename)
+def persist_comment_to_disk(reviews):
+    if len(reviews) == 0:
+        return False
+    product_id_set = set([r['product_id'] for r in reviews])
+    assert len(product_id_set) == 1, 'all product ids should be the same in the reviews list.'
+    product_id = next(iter(product_id_set))
+    output_filename, exist = get_reviews_filename(product_id)
+    if exist:
+        return False
+    mkdir_p(OUTPUT_DIR)
     with open(output_filename, 'w') as fp:
-        json.dump(comment, fp, sort_keys=True, indent=4, ensure_ascii=False)
+        json.dump(reviews, fp, sort_keys=True, indent=4, ensure_ascii=False)
+    return True
 
 
 def extract_product_id(link_from_main_page):
