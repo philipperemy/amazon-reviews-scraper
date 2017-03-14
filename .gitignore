@@ -92,3 +92,4 @@ ENV/
 # Rope project settings
 .ropeproject
 
+*.json
