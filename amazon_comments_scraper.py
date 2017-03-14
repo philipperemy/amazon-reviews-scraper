@@ -5,13 +5,8 @@ from core_utils import *
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--search')
-    parser.add_argument('-i', '--input')
-    args = parser.parse_args()
-    input_product_ids_filename = args.input
 
+def run(search, input_product_ids_filename):
     if input_product_ids_filename is not None:
         with open(input_product_ids_filename, 'r') as r:
             product_ids = [p.strip() for p in r.readlines()]
@@ -28,6 +23,25 @@ if __name__ == '__main__':
                 persist_comment_to_disk(reviews)
     else:
         DEFAULT_SEARCH = 'BOTANIST ボタニカルシャンプー 490ml ＆ トリートメント 490g　モイストセット'
-        search = DEFAULT_SEARCH if args.search is None else args.search
+        search = DEFAULT_SEARCH if search is None else search
         reviews = get_comments_based_on_keyword(search=search)
         persist_comment_to_disk(reviews)
+
+
+def get_script_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--search')
+    parser.add_argument('-i', '--input')
+    args = parser.parse_args()
+    input_product_ids_filename = args.input
+    search = args.search
+    return search, input_product_ids_filename
+
+
+def main():
+    search, input_product_ids_filename = get_script_arguments()
+    run(search, input_product_ids_filename)
+
+
+if __name__ == '__main__':
+    main()

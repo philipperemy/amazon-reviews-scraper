@@ -8,6 +8,8 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup
 
+from banned_exception import BannedException
+
 OUTPUT_DIR = 'comments'
 
 
@@ -72,7 +74,5 @@ def get_soup(url):
     assert out.status_code == 200
     soup = BeautifulSoup(out.content, 'html.parser')
     if 'captcha' in str(soup):
-        logging.error('Your bot has been detected. Please wait a while.')
-        logging.error('Program will exit.')
-        exit(1)
+        raise BannedException('Your bot has been detected. Please wait a while.')
     return soup
