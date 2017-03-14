@@ -17,7 +17,8 @@ def extract_product_ids_from_link(category_link):
 
 
 def get_random_product_ids(output_filename):
-    # this function has a random behavior! It's like restoring from a checkpoint because a new call will yield new values.
+    # this function has a random behavior! It's like restoring from a checkpoint
+    # because a new call will yield new values.
     logging.info('Writing to {}'.format(output_filename))
     with open(output_filename, 'w') as o:
         main_category_page = get_soup('https://www.amazon.co.jp/gp/site-directory/ref=nav_shopall_btn')
@@ -29,7 +30,7 @@ def get_random_product_ids(output_filename):
         for it, category_link in enumerate(category_links):
             try:
                 logging.info('({}/{}) get as many links as we can.'.format(it, len(category_links)))
-                category_link_soup = get_soup('https://www.amazon.co.jp' + category_link)
+                category_link_soup = get_soup(category_link)
                 new_links = [a.attrs['href'] for a in category_link_soup.find_all('a')
                              if 'href' in a.attrs and a.attrs['href'].startswith('/s/')]  # or /b/
                 more_category_links.extend(new_links)
