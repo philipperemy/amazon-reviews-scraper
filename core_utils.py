@@ -1,4 +1,5 @@
 import logging
+import re
 from time import sleep
 
 import requests
@@ -14,7 +15,11 @@ def extract_product_id(link_from_main_page):
             p_id = link_from_main_page[link_from_main_page.index(tag) + len(tag):].split('/')[0]
         except:
             pass
-    return p_id
+    m = re.match('[A-Z0-9]{10}', p_id)
+    if m:
+        return m.group()
+    else:
+        return None
 
 
 def get_soup(url):
@@ -30,5 +35,14 @@ def get_soup(url):
     out = requests.get(url, headers=header)
     assert out.status_code == 200
     soup = BeautifulSoup(out.content, 'html.parser')
-    assert 'captcha' not in str(soup), 'Your bot has been detected. Please wait a while.'
+    if 'captcha' in str(soup):
+        logging.error('Your bot has been detected. Please wait a while.')
+        logging.error('Program will exit.')
+        exit(1)
+
     return soup
+
+
+if __name__ == '__main__':
+    l = 'https://www.amazon.co.jp/海派物語-Shanghai-Story-チャイナドレス（レディース、女性用）ドラゴン-パーティー/dp/B01F401N1A/ref=sr_1_1?ie=UTF8&qid=1486377535&sr=8-1&keywords=wine+red'
+    print(extract_product_id(l))

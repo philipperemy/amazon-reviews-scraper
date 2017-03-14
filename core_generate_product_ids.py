@@ -12,12 +12,13 @@ def extract_product_ids_from_link(category_link):
                         if 'href' in a.attrs and '/dp/' in a.attrs['href']]
     products_links = products_links_1 + products_links_2
     products_ids = list(map(extract_product_id, products_links))
+    products_ids = list(filter(None.__ne__, products_ids))  # remove None values
     return products_ids
 
 
 def get_random_product_ids(output_filename):
+    logging.info('Writing to {}'.format(output_filename))
     with open(output_filename, 'w') as o:
-
         main_category_page = get_soup('https://www.amazon.co.jp/gp/site-directory/ref=nav_shopall_btn')
         # can have more by clicking on those buttons.
         category_links_soup = main_category_page.find_all('a', {'class': 'nav_a'})

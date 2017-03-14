@@ -33,6 +33,8 @@ def get_comments_based_on_keyword(search):
 
 
 def get_comments_with_product_id(product_id):
+    if product_id is None:
+        return
     for page_number in range(100):
         product_reviews_link = get_product_reviews_url(product_id, page_number)
         so = get_soup(product_reviews_link)
