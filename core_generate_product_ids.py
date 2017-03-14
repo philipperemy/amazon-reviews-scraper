@@ -1,6 +1,7 @@
 import logging
 import random
 
+from banned_exception import BannedException
 from core_utils import get_soup, extract_product_id
 
 
@@ -35,6 +36,8 @@ def get_random_product_ids(output_filename):
                              if 'href' in a.attrs and a.attrs['href'].startswith('/s/')]  # or /b/
                 more_category_links.extend(new_links)
                 logging.info('{} links found so far.'.format(len(more_category_links)))
+            except BannedException as be:
+                raise be
             except Exception as e:
                 logging.error('Exception occurred. Skipping')
                 logging.error(e)
@@ -63,7 +66,8 @@ def get_random_product_ids(output_filename):
                         if 'page' in category_link:
                             break
                         more_category_links.append(category_link + '&page={}'.format(jj))
-
+            except BannedException as be:
+                raise be
             except Exception as e:
                 logging.error('Exception occurred. Skipping')
                 logging.error(e)
