@@ -26,7 +26,8 @@ python amazon_comments_scraper.py -s iPhone # will search iPhone on the region s
 
 ### Get random products ids
 
-It will start looking at some pages to list as many links as possible, then will browse each link to find product ids.
+- It will start looking at some pages to list as many links as possible, then will browse each link to find the products ids.
+- Once the products ids file is generated, the second script will browse each product and start fetching the comments. For each product, a JSON file `comments/{product_id}.json` is generated with the comments of the product.
 
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
