@@ -1,5 +1,5 @@
 # Amazon Multi Language Reviews Scraper 
-## *Last update March 2017. Works for Python2-3!*
+
 Yet another Multi Language Scraper for Amazon targeting reviews.
 <br/>
 <div align="center">
