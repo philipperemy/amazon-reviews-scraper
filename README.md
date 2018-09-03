@@ -15,18 +15,18 @@ cd ars
 sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
 ```
 
-### Search based on a keyword. Example: iPhone.
+### Search based on a keyword. Example: iPhone
 ```
 python amazon_comments_scraper.py -s iPhone # will search iPhone on Amazon.co.jp and fetch many comments!
 ```
 
-### Search based on categories.
+### Get random products ids
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
 python amazon_comments_scraper.py -i product_ids.txt # Find all the comments for the products ids.
 ```
 
-### Search based on categories (VPN).
+### Search based on categories (VPN)
 Amazon bans after 5000 queries on average. Fortunately, you can bypass it with a VPN. Check the section VPN below and/or check this repository for more information [https://github.com/philipperemy/expressvpn-python](https://github.com/philipperemy/expressvpn-python).
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
