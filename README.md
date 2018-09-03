@@ -15,6 +15,10 @@ cd ars
 sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
 ```
 
+Then you can set the `AMAZON_BASE_URL` to your region. For example:
+- https://www.amazon.co.jp
+- https://www.amazon.co.uk
+
 ### Search based on a keyword. Example: iPhone
 ```
 python amazon_comments_scraper.py -s iPhone # will search iPhone on Amazon.co.jp and fetch many comments!
