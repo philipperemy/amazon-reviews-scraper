@@ -20,6 +20,9 @@ Then you can set the `AMAZON_BASE_URL` to your region. For example, those are va
 - https://www.amazon.co.uk
 
 ### Search based on a keyword. Example: iPhone
+
+- This keyword search will fetch products that match the keyword. For each product, comments are fetched and stored in `comments/{product_id}.json` (one file per product).
+
 ```
 python amazon_comments_scraper.py -s iPhone # will search iPhone on the region specified by AMAZON_BASE_URL and fetch many comments!
 ```
