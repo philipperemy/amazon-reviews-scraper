@@ -12,7 +12,7 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 ```
 git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
 cd ars
-sudo pip install -r requirements.txt
+sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
 ```
 
 ### Search based on a keyword. Example: iPhone.
