@@ -3,8 +3,6 @@ import argparse
 from core_extract_comments import *
 from core_utils import *
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
 
 def run(search, input_product_ids_filename):
     if input_product_ids_filename is not None:
@@ -44,4 +42,5 @@ def main():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     main()

@@ -59,15 +59,21 @@ def get_comments_with_product_id(product_id):
             rating = review.find(attrs={'data-hook': 'review-star-rating'}).attrs['class'][2].split('-')[-1]
             body = review.find(attrs={'data-hook': 'review-body'}).text
             title = review.find(attrs={'data-hook': 'review-title'}).text
+            try:
+                helpful = review.find(attrs={'data-hook': 'helpful-vote-statement'}).text
+                helpful = helpful.strip().split(' ')[0]
+            except:
+                logging.warning('Could not find any helpful-vote-statement tag.')
+                helpful = ''
 
             logging.info('***********************************************')
             logging.info('TITLE    = ' + title)
             logging.info('RATING   = ' + rating)
             logging.info('CONTENT  = ' + body)
+            logging.info('HELPFUL  = ' + helpful)
             logging.info('***********************************************\n')
             reviews.append({'title': title,
                             'rating': rating,
                             'body': body,
-                            'product_id': product_id
-                            })
+                            'product_id': product_id})
     return reviews
