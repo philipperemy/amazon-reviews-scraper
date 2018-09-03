@@ -1,5 +1,5 @@
 # Amazon Multi Language Reviews Scraper 
-## *Last update March 2017. Works for Python2-3!*
+
 Yet another Multi Language Scraper for Amazon targeting reviews.
 <br/>
 <div align="center">
@@ -12,21 +12,24 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 ```
 git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
 cd ars
-sudo pip install -r requirements.txt
+sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
 ```
 
-### Search based on a keyword. Example: iPhone.
+### Search based on a keyword. Example: iPhone
 ```
 python amazon_comments_scraper.py -s iPhone # will search iPhone on Amazon.co.jp and fetch many comments!
 ```
 
-### Search based on categories.
+### Get random products ids
+
+It will start looking at some pages to list as many links as possible, then will browse each link to find product ids.
+
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
 python amazon_comments_scraper.py -i product_ids.txt # Find all the comments for the products ids.
 ```
 
-### Search based on categories (VPN).
+### Search based on categories (VPN)
 Amazon bans after 5000 queries on average. Fortunately, you can bypass it with a VPN. Check the section VPN below and/or check this repository for more information [https://github.com/philipperemy/expressvpn-python](https://github.com/philipperemy/expressvpn-python).
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
