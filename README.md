@@ -34,11 +34,11 @@ python amazon_products_scraper.py -o product_ids.txt # Get all the product ids f
 python amazon_comments_scraper.py -i product_ids.txt # Find all the comments for the products ids.
 ```
 
-### Search based on categories (VPN)
+### Get random products ids (VPN)
 Amazon bans after 5000 queries on average. Fortunately, you can bypass it with a VPN. Check the section VPN below and/or check this repository for more information [https://github.com/philipperemy/expressvpn-python](https://github.com/philipperemy/expressvpn-python).
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
-python amazon_comments_scraper_vpn.py -i product_ids.txt # Find all the comments for the products ids.
+python amazon_comments_scraper_vpn.py -i product_ids.txt # Wraps amazon_comments_scraper.py with IP auto switching.
 ```
 
 ### VPN
