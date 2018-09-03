@@ -64,7 +64,7 @@ def get_comments_with_product_id(product_id):
                 helpful = review.find(attrs={'data-hook': 'helpful-vote-statement'}).text
                 helpful = helpful.strip().split(' ')[0]
             except:
-                logging.warning('Could not find any helpful-vote-statement tag.')
+                # logging.warning('Could not find any helpful-vote-statement tag.')
                 helpful = ''
 
             logging.info('***********************************************')
