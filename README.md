@@ -21,6 +21,9 @@ python amazon_comments_scraper.py -s iPhone # will search iPhone on Amazon.co.jp
 ```
 
 ### Get random products ids
+
+It will start looking at some pages to list as many links as possible, then will browse each link to find product ids.
+
 ```
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
 python amazon_comments_scraper.py -i product_ids.txt # Find all the comments for the products ids.
