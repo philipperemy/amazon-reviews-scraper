@@ -1,5 +1,5 @@
-from glob import glob
 import json
+from glob import glob
 
 if __name__ == '__main__':
     json_filenames = glob('comments/*.json')

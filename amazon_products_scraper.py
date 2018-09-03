@@ -3,7 +3,7 @@ import logging
 
 from core_generate_product_ids import get_random_product_ids
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 DEFAULT_OUTPUT_FILENAME = 'product_ids.txt'
 

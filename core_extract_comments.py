@@ -1,23 +1,23 @@
 import logging
 import re
-
 import validators
 
+from constants import AMAZON_BASE_URL
 from core_utils import get_soup, extract_product_id
 
 
 # https://www.amazon.co.jp/product-reviews/B00Z16VF3E/ref=cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews&showViewpoints=1&sortBy=helpful&pageNumber=1
 
 def get_product_reviews_url(item_id, page_number):
-    return 'https://www.amazon.co.jp/product-reviews/{}/ref=' \
-           'cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews' \
-           '&showViewpoints=1&sortBy=helpful&pageNumber={}'.format(
+    return AMAZON_BASE_URL + '/product-reviews/{}/ref=' \
+                             'cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews' \
+                             '&showViewpoints=1&sortBy=helpful&pageNumber={}'.format(
         item_id, page_number)
 
 
 def get_comments_based_on_keyword(search):
     logging.info('SEARCH = {}'.format(search))
-    url = 'http://www.amazon.co.jp/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + \
+    url = AMAZON_BASE_URL + '/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + \
           search + '&rh=i%3Aaps%2Ck%3A' + search
     soup = get_soup(url)
     items = []

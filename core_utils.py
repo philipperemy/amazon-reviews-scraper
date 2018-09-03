@@ -1,14 +1,15 @@
 import errno
+from time import sleep
+
 import json
 import logging
 import os
 import re
-from time import sleep
-
 import requests
 from bs4 import BeautifulSoup
 
 from banned_exception import BannedException
+from constants import AMAZON_BASE_URL
 
 OUTPUT_DIR = 'comments'
 
@@ -61,8 +62,8 @@ def extract_product_id(link_from_main_page):
 
 
 def get_soup(url):
-    if 'amazon.co.jp' not in url:
-        url = 'https://www.amazon.co.jp' + url
+    if AMAZON_BASE_URL not in url:
+        url = AMAZON_BASE_URL + url
     nap_time_sec = 1
     logging.debug('Script is going to sleep for {} (Amazon throttling). ZZZzzzZZZzz.'.format(nap_time_sec))
     sleep(nap_time_sec)

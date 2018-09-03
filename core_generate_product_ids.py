@@ -2,6 +2,7 @@ import logging
 import random
 
 from banned_exception import BannedException
+from constants import AMAZON_BASE_URL
 from core_utils import get_soup, extract_product_id
 
 
@@ -22,7 +23,7 @@ def get_random_product_ids(output_filename):
     # because a new call will yield new values.
     logging.info('Writing to {}'.format(output_filename))
     with open(output_filename, 'w') as o:
-        main_category_page = get_soup('https://www.amazon.co.jp/gp/site-directory/ref=nav_shopall_btn')
+        main_category_page = get_soup(AMAZON_BASE_URL + '/gp/site-directory/ref=nav_shopall_btn')
         # can have more by clicking on those buttons.
         category_links_soup = main_category_page.find_all('a', {'class': 'nav_a'})
         category_links = [a.attrs['href'] for a in category_links_soup]
