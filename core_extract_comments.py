@@ -3,7 +3,7 @@ import re
 import validators
 
 from constants import AMAZON_BASE_URL
-from core_utils import get_soup, extract_product_id
+from core_utils import get_soup, extract_product_id, persist_comment_to_disk
 
 
 # https://www.amazon.co.jp/product-reviews/B00Z16VF3E/ref=cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews&showViewpoints=1&sortBy=helpful&pageNumber=1
@@ -30,7 +30,8 @@ def get_comments_based_on_keyword(search):
     for (link, name) in items:
         logging.debug('link = {}, name = {}'.format(link, name))
         product_id = extract_product_id(link)
-        get_comments_with_product_id(product_id)
+        reviews = get_comments_with_product_id(product_id)
+        persist_comment_to_disk(reviews)
 
 
 def get_comments_with_product_id(product_id):

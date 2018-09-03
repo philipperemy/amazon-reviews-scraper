@@ -13,6 +13,9 @@ from constants import AMAZON_BASE_URL
 
 OUTPUT_DIR = 'comments'
 
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
+
 
 def get_reviews_filename(product_id):
     filename = os.path.join(OUTPUT_DIR, '{}.json'.format(product_id))
