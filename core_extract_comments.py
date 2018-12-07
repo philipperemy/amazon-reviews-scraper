@@ -47,19 +47,19 @@ def get_comments_with_product_id(product_id):
         cr_review_list_so = so.find(id='cm_cr-review_list')
 
         if cr_review_list_so is None:
-            logging.info('No reviews for this item.')
+            logging.info('No reviews for this item: '+ product_id)
             break
 
         reviews_list = cr_review_list_so.find_all(attrs={'class': 'a-section review'})
 
         if len(reviews_list) == 0:
-            logging.info('No more reviews to unstack.')
+            logging.info('No more reviews to unstack for: '+ product_id)
             break
 
         for review in reviews_list:
             rating = review.find(attrs={'data-hook': 'review-star-rating'}).attrs['class'][2].split('-')[-1]
-            body = review.find(attrs={'data-hook': 'review-body'}).text
-            title = review.find(attrs={'data-hook': 'review-title'}).text
+            body = review.find(attrs={'data-hook': 'review-body'}).text.text.encode('utf-8')
+            title = review.find(attrs={'data-hook': 'review-title'}).text.text.encode('utf-8')
             try:
                 helpful = review.find(attrs={'data-hook': 'helpful-vote-statement'}).text
                 helpful = helpful.strip().split(' ')[0]
@@ -69,6 +69,7 @@ def get_comments_with_product_id(product_id):
 
             logging.info('***********************************************')
             logging.info('TITLE    = ' + title)
+	    logging.info('ASIN    = ' + product_id)
             logging.info('RATING   = ' + rating)
             logging.info('CONTENT  = ' + body)
             logging.info('HELPFUL  = ' + helpful)
