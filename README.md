@@ -9,7 +9,7 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 ## How to get started?
 
 ### Installation
-```
+```bash
 git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
 cd ars
 sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
@@ -23,7 +23,7 @@ Then you can set the `AMAZON_BASE_URL` to your region. For example, those are va
 
 - This keyword search will fetch products that match the keyword. For each product, comments are fetched and stored in `comments/{product_id}.json` (one file per product).
 
-```
+```bash
 python amazon_comments_scraper.py -s iPhone # will search iPhone on the region specified by AMAZON_BASE_URL and fetch many comments!
 ```
 
@@ -32,14 +32,14 @@ python amazon_comments_scraper.py -s iPhone # will search iPhone on the region s
 - It will start looking at some pages to list as many links as possible, then will browse each link to find the products ids.
 - Once the products ids file is generated, the second script will browse each product and start fetching the comments. For each product, a JSON file `comments/{product_id}.json` is generated with the comments of the product.
 
-```
+```bash
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
 python amazon_comments_scraper.py -i product_ids.txt # Find all the comments for the products ids.
 ```
 
 ### Get random products ids (VPN)
 Amazon bans after 5000 queries on average. Fortunately, you can bypass it with a VPN. Check the section VPN below and/or check this repository for more information [https://github.com/philipperemy/expressvpn-python](https://github.com/philipperemy/expressvpn-python).
-```
+```bash
 python amazon_products_scraper.py -o product_ids.txt # Get all the product ids first.
 python amazon_comments_scraper_vpn.py -i product_ids.txt # Wraps amazon_comments_scraper.py with IP auto switching.
 ```
@@ -51,7 +51,7 @@ In my case, I subscribed to this VPN: [https://www.expressvpn.com/](https://www.
 I provide a python binding for this VPN here: [https://github.com/philipperemy/expressvpn-python](https://github.com/philipperemy/expressvpn-python).
 
 Run those commands in Ubuntu 64 bits to configure the VPN with the Google News Scraper project:
-```
+```bash
 git clone git@github.com:philipperemy/expressvpn-python.git evpn
 cd evpn
 sudo dpkg -i expressvpn_1.2.0_amd64.deb # will install the binaries provided by ExpressVPN
