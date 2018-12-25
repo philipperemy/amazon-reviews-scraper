@@ -43,7 +43,8 @@ def persist_comment_to_disk(reviews):
     if exist:
         return False
     mkdir_p(OUTPUT_DIR)
-    with open(output_filename, 'w') as fp:
+    # https://stackoverflow.com/questions/18337407/saving-utf-8-texts-in-json-dumps-as-utf8-not-as-u-escape-sequence/18337754
+    with open(output_filename, 'w', encoding='utf-8') as fp:
         json.dump(reviews, fp, sort_keys=True, indent=4, ensure_ascii=False)
     return True
 
