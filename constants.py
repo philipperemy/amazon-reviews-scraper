@@ -1,1 +1,1 @@
-AMAZON_BASE_URL = 'https://www.amazon.co.jp'
+AMAZON_BASE_URL = 'https://www.amazon.co.uk'
