@@ -8,7 +8,12 @@ from core_utils import get_soup, extract_product_id, persist_comment_to_disk
 
 # https://www.amazon.co.jp/product-reviews/B00Z16VF3E/ref=cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews&showViewpoints=1&sortBy=helpful&pageNumber=1
 
-def get_product_reviews_url(item_id, page_number):
+def get_product_reviews_url(item_id, page_number=None):
+    if not page_number:
+        return AMAZON_BASE_URL + '/product-reviews/{}/ref=' \
+                                 'cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews' \
+                                 '&showViewpoints=1&sortBy=helpful'.format(
+            item_id)
     return AMAZON_BASE_URL + '/product-reviews/{}/ref=' \
                              'cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews' \
                              '&showViewpoints=1&sortBy=helpful&pageNumber={}'.format(
@@ -40,7 +45,13 @@ def get_comments_with_product_id(product_id):
         return reviews
     if not re.match('^[A-Z0-9]{10}$', product_id):
         return reviews
-    for page_number in range(100):
+
+    product_reviews_link = get_product_reviews_url(product_id)
+    so = get_soup(product_reviews_link)
+    max_page_number = so.find_all("li", {'class': 'page-button'})
+    max_page_number = int(max_page_number[-1].text) if max_page_number else 1
+
+    for page_number in range(1, max_page_number + 1):
         product_reviews_link = get_product_reviews_url(product_id, page_number)
         so = get_soup(product_reviews_link)
 
