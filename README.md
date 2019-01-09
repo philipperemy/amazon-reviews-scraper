@@ -12,7 +12,7 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 ```bash
 git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
 cd ars
-sudo pip install -r requirements.txt # recommended to use a virtualenv instead of sudo pip install.
+pip install -r requirements.txt # recommended to use a virtualenv instead of pip install directly (python3 preferred).
 ```
 
 Then you can set the `AMAZON_BASE_URL` to your region. For example, those are valid choices:
