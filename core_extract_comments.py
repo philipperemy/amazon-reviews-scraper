@@ -47,7 +47,9 @@ def get_comments_with_product_id(product_id):
     product_reviews_link = get_product_reviews_url(product_id)
     so = get_soup(product_reviews_link)
     max_page_number = so.find(attrs={'data-hook': 'total-review-count'})
-    max_page_number = ''.join([el for el in max_page_number if el.isdigit()])
+    # print(max_page_number.text)
+    max_page_number = ''.join([el for el in max_page_number.text if el.isdigit()])
+    # print(max_page_number)
     max_page_number = int(max_page_number) if max_page_number else 1
 
     max_page_number *= 0.1
