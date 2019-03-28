@@ -77,7 +77,7 @@ def get_soup(url):
     logging.debug('-> to Amazon : {}'.format(url))
     out = requests.get(url, headers=header)
     assert out.status_code == 200
-    soup = BeautifulSoup(out.content, 'html.parser')
+    soup = BeautifulSoup(out.content, 'lxml')
     if 'captcha' in str(soup):
         raise BannedException('Your bot has been detected. Please wait a while.')
     return soup

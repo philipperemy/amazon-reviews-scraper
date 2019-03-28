@@ -20,9 +20,9 @@ def run(search, input_product_ids_filename):
                 logging.info('{} reviews found so far.'.format(reviews_counter))
                 persist_comment_to_disk(reviews)
     else:
-        DEFAULT_SEARCH = 'BOTANIST ボタニカルシャンプー 490ml ＆ トリートメント 490g　モイストセット'
-        search = DEFAULT_SEARCH if search is None else search
-        reviews = get_comments_based_on_keyword(search=search)
+        default_search = 'iPhone'
+        search = default_search if search is None else search
+        reviews = get_comments_based_on_keyword(search)
         persist_comment_to_disk(reviews)
 
 

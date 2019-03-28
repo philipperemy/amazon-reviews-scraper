@@ -1,3 +1,4 @@
 requests
 validators
 beautifulsoup4
+lxml

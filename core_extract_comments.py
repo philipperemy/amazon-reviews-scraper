@@ -1,10 +1,10 @@
 import logging
-import re
-import validators
 import math
+import re
+import textwrap
 
 from constants import AMAZON_BASE_URL
-from core_utils import get_soup, extract_product_id, persist_comment_to_disk
+from core_utils import get_soup, persist_comment_to_disk
 
 
 # https://www.amazon.co.jp/product-reviews/B00Z16VF3E/ref=cm_cr_arp_d_paging_btm_1?ie=UTF8&reviewerType=all_reviews&showViewpoints=1&sortBy=helpful&pageNumber=1
@@ -23,17 +23,13 @@ def get_comments_based_on_keyword(search):
     url = AMAZON_BASE_URL + '/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=' + \
           search + '&rh=i%3Aaps%2Ck%3A' + search
     soup = get_soup(url)
-    items = []
-    for a in soup.find_all('a', class_='s-access-detail-page'):
-        if a.find('h2') is not None and validators.url(a.get('href')):
-            name = str(a.find('h2').string)
-            link = a.get('href')
-            items.append((link, name))
-    logging.info('Found {} items.'.format(len(items)))
-    for (link, name) in items:
-        logging.debug('link = {}, name = {}'.format(link, name))
-        product_id = extract_product_id(link)
+
+    product_ids = [div.attrs['data-asin'] for div in soup.find_all('div') if 'data-index' in div.attrs]
+    logging.info('Found {} items.'.format(len(product_ids)))
+    for product_id in product_ids:
+        logging.info('product_id is {}.'.format(product_id))
         reviews = get_comments_with_product_id(product_id)
+        logging.info('Fetched {} reviews.'.format(len(reviews)))
         persist_comment_to_disk(reviews)
 
 
@@ -47,12 +43,14 @@ def get_comments_with_product_id(product_id):
     product_reviews_link = get_product_reviews_url(product_id)
     so = get_soup(product_reviews_link)
     max_page_number = so.find(attrs={'data-hook': 'total-review-count'})
+    if max_page_number is None:
+        return reviews
     # print(max_page_number.text)
     max_page_number = ''.join([el for el in max_page_number.text if el.isdigit()])
     # print(max_page_number)
     max_page_number = int(max_page_number) if max_page_number else 1
 
-    max_page_number *= 0.1
+    max_page_number *= 0.1  # displaying 10 results per page. So if 663 results then ~66 pages.
     max_page_number = math.ceil(max_page_number)
 
     for page_number in range(1, max_page_number + 1):
@@ -66,21 +64,21 @@ def get_comments_with_product_id(product_id):
             logging.info('No reviews for this item.')
             break
 
-        reviews_list = cr_review_list_so.find_all(attrs={'class': 'a-section review'})
+        reviews_list = cr_review_list_so.find_all('div', {'data-hook': 'review'})
 
         if len(reviews_list) == 0:
             logging.info('No more reviews to unstack.')
             break
 
         for review in reviews_list:
-            rating = review.find(attrs={'data-hook': 'review-star-rating'}).attrs['class'][2].split('-')[-1]
-            body = review.find(attrs={'data-hook': 'review-body'}).text
-            title = review.find(attrs={'data-hook': 'review-title'}).text
+            rating = review.find(attrs={'data-hook': 'review-star-rating'}).attrs['class'][2].split('-')[-1].strip()
+            body = review.find(attrs={'data-hook': 'review-body'}).text.strip()
+            title = review.find(attrs={'data-hook': 'review-title'}).text.strip()
             author_url = review.find(attrs={'data-hook': 'genome-widget'}).find('a', href=True)
             if author_url:
-                author_url = author_url['href']
+                author_url = author_url['href'].strip()
             try:
-                helpful = review.find(attrs={'data-hook': 'helpful-vote-statement'}).text
+                helpful = review.find(attrs={'data-hook': 'helpful-vote-statement'}).text.strip()
                 helpful = helpful.strip().split(' ')[0]
             except:
                 # logging.warning('Could not find any helpful-vote-statement tag.')
@@ -89,7 +87,7 @@ def get_comments_with_product_id(product_id):
             logging.info('***********************************************')
             logging.info('TITLE    = ' + title)
             logging.info('RATING   = ' + rating)
-            logging.info('CONTENT  = ' + body)
+            logging.info('CONTENT  = ' + '\n'.join(textwrap.wrap(body, 80)))
             logging.info('HELPFUL  = ' + helpful)
             logging.info('AUTHOR URL  = ' + author_url if author_url else '')
             logging.info('***********************************************\n')
@@ -102,5 +100,7 @@ def get_comments_with_product_id(product_id):
 
 
 if __name__ == '__main__':
-    reviews = get_comments_with_product_id('B00BV0W8RQ')
-    persist_comment_to_disk(reviews)
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    _reviews = get_comments_with_product_id('B00BV0W8RQ')
+    print(_reviews)
+    persist_comment_to_disk(_reviews)
