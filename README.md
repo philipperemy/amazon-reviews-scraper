@@ -10,8 +10,7 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
 
 ### Installation
 ```bash
-git clone git@github.com:philipperemy/amazon-reviews-scraper.git ars
-cd ars
+git clone git@github.com:philipperemy/amazon-reviews-scraper.git && cd amazon-reviews-scraper
 pip install -r requirements.txt # recommended to use a virtualenv instead of pip install directly (python3 preferred).
 ```
 
