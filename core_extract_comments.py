@@ -75,6 +75,8 @@ def get_comments_with_product_id(product_id):
             body = review.find(attrs={'data-hook': 'review-body'}).text.strip()
             title = review.find(attrs={'data-hook': 'review-title'}).text.strip()
             author_url = review.find(attrs={'data-hook': 'genome-widget'}).find('a', href=True)
+            review_url = review.find(attrs={'data-hook': 'review-title'}).attrs['href']
+            review_date = review.find(attrs={'data-hook': 'review-date'}).text.strip()
             if author_url:
                 author_url = author_url['href'].strip()
             try:
@@ -90,12 +92,17 @@ def get_comments_with_product_id(product_id):
             logging.info('CONTENT  = ' + '\n'.join(textwrap.wrap(body, 80)))
             logging.info('HELPFUL  = ' + helpful)
             logging.info('AUTHOR URL  = ' + author_url if author_url else '')
+            logging.info('REVIEW URL  = ' + review_url if review_url else '')
+            logging.info('REVIEW DATE  = ' + review_date if review_date else '')
             logging.info('***********************************************\n')
             reviews.append({'title': title,
                             'rating': rating,
                             'body': body,
                             'product_id': product_id,
-                            'author_url': author_url})
+                            'author_url': author_url,
+                            'review_url': review_url,
+                            'review_date': review_date,
+                           })
     return reviews
 
 
