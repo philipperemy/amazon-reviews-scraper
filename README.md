@@ -15,6 +15,7 @@ pip install -r requirements.txt # recommended to use a virtualenv instead of pip
 ```
 
 Then you can set the `AMAZON_BASE_URL` to your region. For example, those are valid choices:
+- https://www.amazon.com
 - https://www.amazon.co.jp
 - https://www.amazon.co.uk
 
