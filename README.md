@@ -6,6 +6,11 @@ Yet another Multi Language Scraper for Amazon targeting reviews.
   <img src="http://static1.businessinsider.com/image/539f3ffbecad044276726c01-960/amazon-com-logo.jpg" width="200"><br><br>
 </div>
 
+![20240206-180420](https://github.com/philipperemy/amazon-reviews-scraper/assets/4516927/05cfebe2-2c65-4db7-a66a-d6c2c9020649)
+
+*[Capsolver.com](Capsolver.com) is an AI-powered service that provides automatic captcha solving capabilities. It supports a range of captcha types, including reCAPTCHA, hCaptcha, FunCaptcha, AWS Captcha, Geetest and image captcha. It aims to facilitate seamless web automation by bypassing captcha verifications efficiently.*
+
+
 ## How to get started?
 
 ### Installation
